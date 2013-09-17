@@ -160,6 +160,9 @@ def pbkdf2(password, salt, iterations, dklen=0, digest=None):
 
     hex_format_string = "%%0%ix" % (hlen * 2)
 
+    if len(password) > digest().block_size:
+        password = digest(password).digest()
+
     def F(i):
         def U():
             u = salt + struct.pack(b'>I', i)
